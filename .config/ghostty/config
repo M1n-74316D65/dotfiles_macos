@@ -1,0 +1,31 @@
+# Theme and Colors
+theme = dark:Gruvbox Dark,light:Gruvbox Light
+background-opacity = 0.95
+background-blur = 10
+
+# Font Configuration
+font-family = "CommitMono"
+
+# Shell and Terminal
+# command = zellij
+confirm-close-surface = false
+shell-integration = detect
+
+# Cursor Settings
+cursor-style = block
+cursor-style-blink = false
+
+# Scrolling
+scrollback-limit = 10000
+mouse-scroll-multiplier = 1.0
+
+# Selection and Clipboard
+selection-foreground = "#282828"
+selection-background = "#ebdbb2"
+copy-on-select = false
+
+# Bell and Notifications
+
+# Quality Settings
+quit-after-last-window-closed = true
+keybind = shift+enter=text:\x1b\r
