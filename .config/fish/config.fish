@@ -3,7 +3,8 @@ if status is-interactive
 
     # Ghostty shell integration
     if set -q GHOSTTY_RESOURCES_DIR
-        source "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish"
+        set -l ghostty_fish "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish"
+        test -f $ghostty_fish; and source $ghostty_fish
     end
 
     # Environment variables
@@ -20,7 +21,8 @@ if status is-interactive
     fish_add_path -gP /opt/homebrew/bin
 
     # macOS SSH agent (using default macOS keychain)
-    set -gx SSH_AUTH_SOCK "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    set -l onepassword_sock "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    test -S $onepassword_sock; and set -gx SSH_AUTH_SOCK $onepassword_sock
 
     # Tool initialization (with existence checks)
     type -q starship; and starship init fish | source
@@ -30,7 +32,17 @@ if status is-interactive
 
     # NVM setup (lazy load for performance)
     set -gx NVM_DIR "$HOME/.nvm"
-    nvm use lts
+    function __nvm
+        test -s "$NVM_DIR/nvm.sh"; or return 1
+        type -q bass; or return 1
+        bass source "$NVM_DIR/nvm.sh" --no-use ';' nvm $argv
+    end
+
+    function nvm
+        __nvm $argv
+    end
+
+    __nvm use lts >/dev/null 2>/dev/null
 
     # Source custom modules
     test -f ~/.config/fish/my_modules/pastes.fish; and source ~/.config/fish/my_modules/pastes.fish
@@ -69,6 +81,7 @@ if status is-interactive
     alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
     alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
     alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+    alias upgrade=update
 
     # Custom functions
     function ytdlp-bandcamp
@@ -89,12 +102,7 @@ if status is-interactive
         mkdir -p $argv[1]; and cd $argv[1]
     end
 
-    function nvm
-        if not type -q nvm
-            bass source "$NVM_DIR/nvm.sh" --no-use ';' nvm $argv
-        else
-            command nvm $argv
-        end
+    if not set -q SSH_AUTH_SOCK; and not pgrep -x ssh-agent >/dev/null
+        eval (ssh-agent -c)
     end
-
 end

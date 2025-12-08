@@ -4,15 +4,68 @@
 // documentation: https://zed.dev/docs/configuring-zed
 //
 // To see all of Zed's default settings without changing your
-// custom settings, run `zed: open default settings` from the
-// command palette (cmd-shift-p / ctrl-shift-p)
+// custom settings, run the `zed: Open Default Settings` command
+// from the command palette
 {
-  "base_keymap": "VSCode",
-  "ui_font_size": 16,
-  "buffer_font_size": 15,
+  "language_models": {
+    "openai_compatible": {
+      "Z.ai": {
+        "api_url": "https://api.z.ai/api/coding/paas/v4",
+        "available_models": [
+          {
+            "name": "GLM-4.6",
+            "max_tokens": 200000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": false
+            }
+          }
+        ]
+      }
+    }
+  },
+  "features": {
+    "edit_prediction_provider": "copilot"
+  },
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "grok-code-fast-1"
+    }
+  },
+  "collaboration_panel": {
+    "button": false
+  },
+  "chat_panel": {
+    "button": "never"
+  },
+  "vim_mode": true,
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false
+  },
+  "buffer_font_size": 14,
   "theme": {
     "mode": "system",
     "light": "Gruvbox Light",
     "dark": "Gruvbox Dark"
+  },
+  "lsp": {
+    "discord_presence": {
+      "initialization_options": {
+        "state": "Working with {language}",
+        "details": "github.com/M1n-74316D65"
+      }
+    }
+  },
+  "agent_servers": {
+    "OpenCode": {
+      "command": "opencode",
+      "args": ["acp"]
+    }
   }
 }
