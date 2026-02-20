@@ -71,6 +71,8 @@ plugins=(
   sudo
   copypath
   dirhistory
+  extract
+  colored-man-pages
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
