@@ -65,6 +65,14 @@ plugins=(
   git
   fzf
   zoxide
+  macos
+  brew
+  github
+  sudo
+  copypath
+  dirhistory
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
